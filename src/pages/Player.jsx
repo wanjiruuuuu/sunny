@@ -17,6 +17,7 @@ export default function Player() {
     const apiKey = import.meta.env.VITE_API_KEY;
 
     const serverURLs = {
+        FLICKY: `${playerURLs.VITE_STREAM_FLICKY}/embed/${type}/?id=${id}`,
         PRO: `${playerURLs.VITE_STREAM_PRO}/embed/${type}/${id}`,
         VIDBINGE: `${playerURLs.VITE_STREAM_VIDBINGE}/embed/${type}/${id}`,
         VIDLINK: `${playerURLs.VITE_STREAM_VIDLINK}/${type}/${id}`,
@@ -33,6 +34,7 @@ export default function Player() {
         PORT: `${playerURLs.VITE_STREAM_PORT}/${type === 'tv' ? 'serie' : 'filme'}/${id}`,
         RUSSIAN: `${playerURLs.VITE_STREAM_RUSSIAN}/embed/imdb/${imdbId}`,
         MULTLANG: `${playerURLs.VITE_STREAM_MULTLANG}/embed/${type}/${id}`,
+        FLICKYANI: `${playerURLs.VITE_STREAM_FLICKYANI}/embed/anime/?id=${id}`,
         ANIME1DUB: `${playerURLs.VITE_STREAM_ANIME1DUB}/v/${animeTitle}-dub`,
         ANIME1SUB: `${playerURLs.VITE_STREAM_ANIME1SUB}/v/${animeTitle}`,
         ANIME2DUB: `${playerURLs.VITE_STREAM_ANIME2DUB}/embed/${animeTitle}-dub`,
@@ -126,7 +128,7 @@ export default function Player() {
     }, [id, type, location.pathname, apiKey]);
 
     useEffect(() => {
-        if (selectedServer === 'CC' || selectedServer === 'XYZ' || selectedServer === 'MULTI' || selectedServer === 'INDIAN' || selectedServer === 'MULTLANG' || selectedServer === 'ANIME1DUB' || selectedServer === 'ANIME1SUB' || selectedServer === 'ANIME2DUB' || selectedServer === 'ANIME2SUB' || selectedServer === 'ANIME3DUB' || selectedServer === 'ANIME3SUB' || selectedServer === 'NL') {
+        if (selectedServer === 'XYZ' || selectedServer === 'MULTI' || selectedServer === 'INDIAN' || selectedServer === 'MULTLANG' || selectedServer === 'ANIME1DUB' || selectedServer === 'ANIME1SUB' || selectedServer === 'ANIME2DUB' || selectedServer === 'ANIME2SUB' || selectedServer === 'ANIME3DUB' || selectedServer === 'ANIME3SUB' || selectedServer === 'NL') {
             setGridPos(35);
         } else {
             setGridPos(0);
@@ -169,58 +171,52 @@ export default function Player() {
 
     return (
         <>
-            <div style={{display: "flex", width: "100vw", height: "100vh"}}>
+            <div className='flex w-screen h-screen'>
                 <iframe 
                     src={getServerURL()} 
                     allowFullScreen={true}
-                    style={{ width: "100%", height: "100%", border: '0' }}
+                    className='w-screen h-screen border-0'
                 ></iframe>
             </div>
-            <div id="button-grid" style={{top: gridPos}}>
-                <Link to={`/info/${type}/${id}`} id="player-button"><i className="fa-solid fa-arrow-left" alt="Back" style={{fontSize: "26px"}} /></Link>
-                <div style={{display: "flex", alignItems: "center"}}>
+            <div className='flex justify-between w-screen absolute' style={{top: gridPos}}>
+                <Link to={`/info/${type}/${id}`}><i className="fa-solid fa-arrow-left text-3xl ml-2 mt-2 hover:scale-90" alt="Back" /></Link>
+                <div className='flex items-center'>
                     <select 
                         name="servers" 
                         value={selectedServer} 
                         onChange={(e) => setSelectedServer(e.target.value)} 
-                        id="server-select"
+                        className='px-4 py-1 m-1 text-xl bg-black border-2 border-white border-opacity-20 rounded-lg cursor-pointer'
                     >   
-                        <option style={{backgroundColor: "rgba(50,50,50,1)"}} selected disabled>ADFREE</option>
-                        <hr/>
+                        <option style={{backgroundColor: "rgb(50, 50, 50)"}} selected disabled>ADFREE</option>
                         <option value="VIDLINK">VIDLINK</option>
-                        <option value="CC">CC (4K)</option>
+                        <option value="FLICKY">FLICKY</option>
                         <option value="NL">NL</option>
-                        <option value="RIP">RIP</option>
-                        <hr/>
-                        <option style={{backgroundColor: "rgba(50,50,50,1)"}} selected disabled>ADS</option>
-                        <hr/>
-                        <option value="VIDBINGE">BINGE</option>
+                        <option style={{backgroundColor: "rgb(50, 50, 50)"}} selected disabled>ADS</option>
+                        <option value="VIDBINGE">BINGE (4K)</option>
                         <option value="PRO">PRO</option>
                         <option value="VIP">VIP</option>
                         <option value="CLUB">CLUB</option>
                         <option value="XYZ">XYZ</option>
+                        <option value="CC">CC</option>
                         <option value="MULTI">MULTI</option>
                         <option value="SS">SMASHY</option>
-                        <hr/>
-                        <option style={{backgroundColor: "rgba(50,50,50,1)"}} selected disabled>LANGUAGE</option>
-                        <hr/>
+                        <option style={{backgroundColor: "rgb(50, 50, 50)"}} selected disabled>LANGUAGE</option>
                         <option value="FRENCH">FRENCH</option>
                         <option value="INDIAN">INDIAN</option>
                         <option value="PORT">PORT</option>
                         <option value="RUSSIAN">RUSSIAN</option>
                         <option value="MULTLANG">MULTLANG</option>
-                        <hr/>
-                        <option style={{backgroundColor: "rgba(50,50,50,1)"}} selected disabled>ANIME</option>
-                        <hr/>
+                        <option style={{backgroundColor: "rgb(50, 50, 50)"}} selected disabled>ANIME</option>
                         <option value="ANIME1DUB">ANI1-DUB</option>
                         <option value="ANIME1SUB">ANI1-SUB</option>
                         <option value="ANIME2DUB">ANI2-DUB</option>
                         <option value="ANIME2SUB">ANI2-SUB</option>
                         <option value="ANIME3DUB">ANI3-DUB</option>
                         <option value="ANIME3SUB">ANI3-SUB</option>
+                        <option value="FLICKYANI">FLICKYANI</option>
                     </select>
                     {type === 'tv' && season && episode && (
-                        <Link to={nextEpisodeLink} id="player-button"><i className="fa-solid fa-arrow-right" style={{fontSize: "26px"}} alt="Next" /></Link>
+                        <Link to={nextEpisodeLink} ><i className="fa-solid fa-arrow-right text-3xl mr-2 ml-1 hover:scale-90" alt="Next" /></Link>
                     )}
                 </div>
             </div>
