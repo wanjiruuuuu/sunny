@@ -3,6 +3,6 @@ Disallow: /settings/
 Disallow: /dmca/
 Disallow: /service/
 Disallow: /search/
-Disallow: /info/
-Disallow: /watch/
+Allow: /info/
+Allow: /watch/
 Allow: /
